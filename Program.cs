@@ -1,97 +1,108 @@
 ﻿using System;
-using System.Collections;
-namespace Midterm1
+using System.Collections.Generic;
+namespace Midterm2
 {
-    enum Menu
+    enum Home_Screen
     {
-        PlayGame = 1,
-        Exit
+        Login = 1,
+        Register 
+    }
+    enum User_Type
+    {
+        Student = 1,
+        Employee
+    }
+    enum Student
+    {
+        Book = 1
+    }
+    enum Employee
+    {
+        Show_Book = 1
+    }
+    enum Store_Book
+    {
+        Now = 1 ,
+        Revolut,
+        Degrees,
+        Vacances
     }
     class Program
     {
         static void Main(string[] args)
         {
-            //ปริ้นท์ค่าที่เรากำหนดเอาไว้
-            PrintHeader();
+            PrintHeader_HomeScreen();
             InputMenu();
-            //ศัพท์ที่ใช้ในเกมส์
-            string[] listwords = new string[3];
-            listwords[0] = "Tennis";
-            listwords[1] = "Football";
-            listwords[2] = "Badminton";
-            //ไว้แรนดอมคำศัพท์
-            Random random = new Random();
-            int resultRandom = random.Next(0, 2);
-            string Word = listwords[resultRandom];
-            char[] guess = new char[Word.Length];
-            Console.WriteLine("Input letter alphabet: ");
-            //กำหนดตัวแปรที่เราต้องใช้
-            int y = 0;
-            int Life = 6;
-            int IncorrectScore = 0;
-            bool A = false;
-            //
-            for (int p = 0; p < Word.Length; p++)
-                guess[p] = '*';
-
-            while (A!=true)
-            {
-                int x = Word.Length;
-                char playerGuess = char.Parse(Console.ReadLine());
-                
-                for (int j = 0; j < Word.Length; j++)
-                {
-                    if (playerGuess == Word[j])
-                    {
-                        //หากแรนดอมออกมาแล้วเป็นคำที่ผิดจะแสดงผลตรงนี้ออกมา
-                        guess[j] = playerGuess;
-                        if (guess[j] != '.')
-                        {
-                            y++;
-                            if (y == Word.Length)
-                            {
-                                A = true;
-                            }
-                        } 
-                    }
-                    else if (playerGuess != Word[j])
-                    {                            
-                        x--;
-                        if (x == 0)
-                        {
-                            //ไว้บอกชีวิตที่ยังเหลืออยู่ในเกมส์
-                           Life--;
-                           Console.WriteLine("Incorrect Score: " + Life);
-                            if(Life == 6)
-                            {
-                                A = true;
-                            }
-                            //เมื่อเราผิดครบ6ชีวิตและเราตาย
-                            else if(Life == 0) 
-                            {
-                                Console.WriteLine("Game Over");
-                            }
-                        } 
-                    }
-                }
-                Console.WriteLine(guess);
-                //เมื่อชนะจะแสดงผลออกมา
-            } Console.WriteLine("Win");
-              IncorrectScore++;
-              Console.WriteLine("Incorrect Score : " + IncorrectScore);
-            
+            PrintHeader_Login();
         }
-        //ที่เอาไว้ไปปริ้นท์ข้างบน
-        static void PrintHeader()
+        static void PrintHeader_HomeScreen()
         {
-            Console.WriteLine("Welcome to Hangman Game");
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("1. Play game \n2. Exit");
+            Console.WriteLine("Welcome to Digital Library");
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("1.Login \n2.Register");
+            Console.WriteLine("Select Menu :");
+        }
+        static void PrintHeader_Register()
+        {
+            Console.WriteLine("Register new Person");
+            Console.WriteLine("-------------------");
+        }
+        static void PrintHeader_Login()
+        {
+            Console.WriteLine("Login Screen");
+            Console.WriteLine("-------------");
+        }
+        public static User_Type user_type()
+        {
+            User_Type user_type = (User_Type)(int.Parse(Console.ReadLine()));
+            return user_type;
+        }
+        static void InputUser_Type()
+        {
+            Console.Write("Input name : ");
+            string name = Console.ReadLine();
+            Console.Write("Input Password : ");
+            string password = Console.ReadLine();
+            Console.Write("Input User Type : ");
+            string user_type = Console.ReadLine();
+            Console.Write("Input ID : ");
+            string id = Console.ReadLine();
+            Register register = new Register(name, password, user_type, id);
+            Console.WriteLine("Name: " + name);
+            Console.WriteLine("Type ID: " + user_type,id);
         }
         static void InputMenu()
         {
-            Console.Write("Please Select Menu : ");
-            Menu menu = (Menu)(int.Parse(Console.ReadLine()));
+            Home_Screen home_screen = (Home_Screen)(int.Parse(Console.ReadLine()));
+            PresentMenu(home_screen);
+        }
+        static void PresentMenu(Home_Screen home_screen)
+        {
+            if(home_screen == Home_Screen.Login)
+            {
+
+            }
+            else if (home_screen == Home_Screen.Register)
+            {
+                PrintHeader_Register();
+                InputUser_Type();
+                PrintHeader_HomeScreen();
+                InputMenu();
+            }
+        }
+    }
+    class Register
+    {
+        public string Name;
+        public  string Password;
+        public string User_Type;
+        public  string ID;
+        public Register(string Name, string Password,string user_type, string ID)
+        {
+            this.Name = Name;
+            this.Password = Password;
+            this.User_Type = user_type;
+            this.ID = ID;
         }
     }
 }
